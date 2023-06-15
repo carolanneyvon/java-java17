@@ -35,8 +35,12 @@ public class Optional_01_Test {
         
         // TODO afficher la personne en question si l'optional contient une personne
         if (optPerson.isPresent()) {
-			System.out.println(optPerson.get().getFirstname());
+			System.out.println(optPerson.get());
 		}
+        
+        // Autre façon de l'écrire
+        optPerson.ifPresent((p) -> System.out.println(p));
+        optPerson.ifPresent(System.out::println);
     }
 
     @Test(expected=NotPresentException.class)
@@ -51,8 +55,15 @@ public class Optional_01_Test {
         assertThat(optPerson.isPresent(), is(false));
         
         // TODO si la personne n'existe pas, jeter une exception NotPresentException
+        // Autre façon de l'écrire
+        optPerson.ifPresentOrElse(
+        		(p) -> System.out.println(p),
+        		() -> System.out.println("Pas de personne"));
         // TODO utiliser la méthode "orElseThrow"
         optPerson.orElseThrow(() -> new NotPresentException());
+        
+        // Autre façon de l'écrire
+        optPerson.orElseThrow(NotPresentException::new);
 
     }
 }
