@@ -16,8 +16,15 @@ public class Person {
         this.age = age;
         this.password = password;
     }
+    
 
-    public String getFirstname() {
+    @Override
+	public String toString() {
+		return "Person [firstname=" + firstname + ", lastname=" + lastname + ", age=" + age + ", password=" + password
+				+ "]";
+	}
+
+	public String getFirstname() {
         return firstname;
     }
 

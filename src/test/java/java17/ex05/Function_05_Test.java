@@ -5,7 +5,10 @@ import java.util.function.Consumer;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+//import static org.hamcrest.MatcherAssert.assertThat;
+//import static org.hamcrest.Matchers.greaterThan;
 
 import java17.data.Data;
 import java17.data.Person;
@@ -24,7 +27,10 @@ public class Function_05_Test {
     // TODO compléter la fonction
     // TODO vérifier que l'age > 4 avec une assertion JUnit
     // Consumer<Person> verifyAge = null;
-	 Consumer<Person> verifyAge = p -> assertEquals((Integer)4, p.getAge());
+	 Consumer<Person> verifyAge = p -> assertTrue(p.getAge() > 4);
+	 
+	// Autre façon de l'écrire 
+//	Consumer<Person> verifyAge = p -> assertThat(p.getAge(), greaterThan(4));
 
     // TODO compléter la fonction
     // TODO vérifier que le mot de passe est "secret" avec une assertion JUnit

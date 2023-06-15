@@ -23,6 +23,16 @@ public class Function_01_Test {
 	// TODO le mot de passe sera de la forme "pass_<ENTIER>"
 	// private Function<Integer, Person> intToPerson = null;
 	private Function<Integer, Person> intToPerson = i -> new Person("first_" + i, "last_" + i, i, "pass_" + i);
+
+	// Autre façon de l'écrire 
+//	private Function<Integer, Person> intToPerson = (i) -> { 
+//		return new Person(
+//				"first_" + i, 
+//				"last_" + i, 
+//				i, 
+//				"pass_" + i
+//		);
+//	};
 	// end::intToPerson[]
 
 	@Test
@@ -49,6 +59,7 @@ public class Function_01_Test {
 		Account account = new Account();
 		account.setOwner(p);
 		account.setBalance(1000);
+		System.out.println("result : account de " + account.getOwner().getFirstname() + "-> bal = " + account.getBalance());
 		return account;
 	};
 	// end::personToAccount[]

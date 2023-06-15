@@ -17,12 +17,18 @@ public class Function_07_Test {
         // return null;
     	int resultat = operator.applyAsInt(nb1, nb2);
     	 return "(" + nb1 + symbol + nb2 + ")=" + resultat;
+    	
+    	 // Autre façon de l'écrire
+//    	return "(%d%s%d)=%d".formatted(nb1, symbol, nb2, operator.applyAsInt(nb1, nb2));
     }
     // end::format[]
 
     // TODO définir sum pour que le test test_format_sum() soit passant
     // IntBinaryOperator sum = null;
     IntBinaryOperator sum = (nb1, nb2) -> nb1 + nb2;
+    
+    // Autre façon de l'écrire
+//    IntBinaryOperator sum = Integer::sum; 
 
     @Test
     public void test_format_sum() throws Exception {

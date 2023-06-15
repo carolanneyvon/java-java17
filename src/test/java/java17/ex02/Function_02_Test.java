@@ -31,6 +31,9 @@ public class Function_02_Test {
         // Account account = null;
     	Person person = new Person("John", "France", 80, "pass");
     	Account account = buildAccount.apply(person, 500);
+    	
+    	// Autre façon de l'écrire 
+//    	Account account = buildAccount.apply(new Person("John", "France", 80, "pass"), 500);
 
         assert account.getBalance().equals(500);
         assert account.getOwner().getFirstname().equals("John");
@@ -38,6 +41,4 @@ public class Function_02_Test {
         assert account.getOwner().getAge().equals(80);
         assert account.getOwner().getPassword().equals("pass");
     }
-
-
 }

@@ -20,6 +20,9 @@ public class Function_06_Test {
         // TODO
         // return null;
     	return "[age=" + supplier.get().getAge() + "]";
+    	
+    	// Autre façon de l'écrire 
+//    	return "[age=%d]".formatted(supplier.get().getAge());
     }
     // end::formatAge[]
 
@@ -29,6 +32,10 @@ public class Function_06_Test {
         // TODO compléter le test unitaire pour qu'il soit passant
         // String result = formatAge(null);
     	String result = formatAge(() -> new Person("", "", 35, ""));
+    	
+    	// Autre façon de l'écrire 
+//    	Supplier<Person> supplier = () -> new Person("", "", 35, null);
+//    	String result = formatAge(supplier);
 
 
         assert result.equals("[age=35]");

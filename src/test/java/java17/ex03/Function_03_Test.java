@@ -18,7 +18,18 @@ public class Function_03_Test {
 	// TODO l'age de l'enfant est 0
 	// TODO le mot de passe de l'enfant est null
 	// BinaryOperator<Person> makeAChild = null;
-	BinaryOperator<Person> makeAChild = (fp, sp) -> new Person(fp.getFirstname() + " " + sp.getFirstname(),fp.getLastname(), 0, null);
+	BinaryOperator<Person> makeAChild = (fp, mp) -> new Person(fp.getFirstname() + " " + mp.getFirstname(),fp.getLastname(), 0, null);
+
+	// Autre façon de l'écrire
+//	BinaryOperator<Person> makeAChild = (pere, mere) -> {
+//		Person enfant = new Person();
+//		enfant.setLastname(pere.getLastname());
+//		enfant.setFirstname(pere.getFirstname() + " " + mere.getFirstname());
+//		enfant.setAge(0);
+//		//enfant.setPassword(null);
+//		System.out.println(enfant);
+//		return enfant;
+//};
 	// end::makeAChild[]
 
 	@Test
@@ -29,7 +40,7 @@ public class Function_03_Test {
 
 		// TODO compléter le test pour qu'il soit passant
 		// Person child = null;
-		 Person child = makeAChild.apply(father, mother);
+		Person child = makeAChild.apply(father, mother);
 
 		assert child.getFirstname().equals("John Aline");
 		assert child.getLastname().equals("France");
