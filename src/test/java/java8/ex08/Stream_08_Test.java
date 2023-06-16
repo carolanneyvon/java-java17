@@ -2,12 +2,19 @@ package java8.ex08;
 
 import org.junit.Test;
 
+import java8.data.Data;
+import java8.data.domain.Pizza;
+
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
@@ -68,11 +75,23 @@ public class Stream_08_Test {
     public void test_group() throws IOException {
 
         // TODO utiliser la méthode java.nio.file.Files.lines pour créer un stream de lignes du fichier naissances_depuis_1900.csv
-        // Le bloc try(...) permet de fermer (close()) le stream après utilisation
-        try (Stream<String> lines = null) {
+//    	Path path = Paths.get(NAISSANCES_DEPUIS_1900_CSV);
+    	// Le bloc try(...) permet de fermer (close()) le stream après utilisation
+        // try (Stream<String> lines = null) {
+//    	try (Stream<String> lines = Files.lines(path)) {
+    	try (Stream<String> lines = Files.lines(Path.of(NAISSANCES_DEPUIS_1900_CSV))) {
 
             // TODO construire une MAP (clé = année de naissance, valeur = somme des nombres de naissance de l'année)
-            Map<String, Integer> result = null;
+            // Map<String, Integer> result = null;
+//    		Map<String, Integer> result = lines
+//                    .map(line -> line.split(","))
+//                    .map(data -> new Naissance(data[0], data[1], Integer.valueOf(data[2])))
+//                    .collect(groupingBy(Naissance::getAnnee, summingInt(Naissance::getNombre)));
+    		String key = lines.map(t -> t.split(";", 1)).findFirst().toString();
+			
+			System.out.println(key);
+			
+			Map<String, Integer> result = lines.collect(Collectors.groupingBy(t -> t.split(";", 1).toString(), Collectors.counting()));
 
 
             assertThat(result.get("2015"), is(8097));
@@ -84,11 +103,17 @@ public class Stream_08_Test {
     public void test_max() throws IOException {
 
         // TODO utiliser la méthode java.nio.file.Files.lines pour créer un stream de lignes du fichier naissances_depuis_1900.csv
-        // Le bloc try(...) permet de fermer (close()) le stream après utilisation
-        try (Stream<String> lines = null) {
+    	// Le bloc try(...) permet de fermer (close()) le stream après utilisation
+        // try (Stream<String> lines = null) {
+    	Path path = Paths.get(NAISSANCES_DEPUIS_1900_CSV);
+    	try (Stream<String> lines = Files.lines(path)) {
 
             // TODO trouver l'année où il va eu le plus de nombre de naissance
-            Optional<Naissance> result = null;
+            // Optional<Naissance> result = null;
+    		Optional<Naissance> result = lines
+                    .map(line -> line.split(","))
+                    .map(data -> new Naissance(data[0], data[1], Integer.valueOf(data[2])))
+                    .max(Comparator.comparing(Naissance::getNombre));
 
 
             assertThat(result.get().getNombre(), is(48));
@@ -100,12 +125,19 @@ public class Stream_08_Test {
     @Test
     public void test_collectingAndThen() throws IOException {
         // TODO utiliser la méthode java.nio.file.Files.lines pour créer un stream de lignes du fichier naissances_depuis_1900.csv
-        // Le bloc try(...) permet de fermer (close()) le stream après utilisation
-        try (Stream<String> lines = null) {
+    	// Le bloc try(...) permet de fermer (close()) le stream après utilisation
+        // try (Stream<String> lines = null) {
+    	Path path = Paths.get(NAISSANCES_DEPUIS_1900_CSV);
+    	try (Stream<String> lines = Files.lines(path)) {
 
             // TODO construire une MAP (clé = année de naissance, valeur = maximum de nombre de naissances)
             // TODO utiliser la méthode "collectingAndThen" à la suite d'un "grouping"
-            Map<String, Naissance> result = null;
+            // Map<String, Naissance> result = null;
+    		Map<String, Naissance> result = lines
+                    .map(line -> line.split(","))
+                    .map(data -> new Naissance(data[0], data[1], Integer.valueOf(data[2])))
+                    .collect(groupingBy(Naissance::getAnnee, 
+                        collectingAndThen(maxBy(Comparator.comparing(Naissance::getNombre)), Optional::get)));
 
             assertThat(result.get("2015").getNombre(), is(38));
             assertThat(result.get("2015").getJour(), is("20150909"));
@@ -124,17 +156,38 @@ public class Stream_08_Test {
     @Test
     public void test_pizzaData() throws IOException {
         // TODO utiliser la méthode java.nio.file.Files.list pour parcourir un répertoire
-
         // TODO trouver la pizza la moins chère
-        String pizzaNamePriceMin = null;
+        // String pizzaNamePriceMin = null;
+    	Data data = new Data();
+        List<Pizza> pizzas = data.getPizzas();
 
-        assertThat(pizzaNamePriceMin, is("L'indienne"));
+        Pizza pizzaNamePriceMin = pizzas
+            .stream()
+            .min(Comparator.comparingInt(Pizza::getPrice))
+            .orElse(null);  // Fournir une valeur par défaut dans le cas où la liste est vide
 
-    }
+	
+	        assertThat(pizzaNamePriceMin, is("L'indienne"));
+    	}
 
     // TODO Optionel
     // TODO Créer un test qui exporte des données new Data().getPizzas() dans des fichiers
     // TODO 1 fichier par pizza
     // TODO le nom du fichier est de la forme ID.txt (ex. 1.txt, 2.txt)
+
+//    @Test
+//    public void test_exportPizzas() throws IOException {
+//        Data data = new Data();
+//        List<Pizza> pizzas = data.getPizzas();
+//
+//        for(Pizza pizza : pizzas) {
+//            Path file = Paths.get("./" + pizza.getId() + ".txt");
+//            List<String> lines = Arrays.asList("Id: " + pizza.getId(), 
+//                                                "Name: " + pizza.getName(), 
+//                                                "Price: " + pizza.getPrice());
+//
+//            Files.write(file, lines, Charset.forName("UTF-8"));
+//        }
+//    }
 
 }
