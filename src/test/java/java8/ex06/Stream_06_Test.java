@@ -2,6 +2,7 @@ package java8.ex06;
 
 import org.junit.Test;
 
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -26,11 +27,17 @@ public class Stream_06_Test {
 
     // Soit une structure permettant de stocker le total
     private class Accumulator {
-        private long total;
+//        private long total;
+//
+//        private void add(long value) {
+//            total += value;
+//        }
+    	
+    	private AtomicLong total = new AtomicLong();
 
-        private void add(long value) {
-            total += value;
-        }
+    	private void add(long value) {
+    		total.addAndGet(value);
+    	}
     }
 
     // TODO compléter la méthode pour que le calcul de la somme soit fait avec une instance d'Accumulator
@@ -44,7 +51,7 @@ public class Stream_06_Test {
         // TODO pour chaque élément de longStream, invoquer la méthode add de l'accumulateur (acc)
     	longStream.forEach(value -> acc.add(value));
         
-    	return acc.total;
+    	return acc.total.get();
     }
 
     // TODO exécuter le test pour valider l'implémentation de sumWithAccumulator
@@ -67,7 +74,8 @@ public class Stream_06_Test {
     	
     	longStream.parallel().forEach(value -> acc.add(value));
         
-    	return acc.total;
+    	//return acc.total;
+    	return acc.total.get();
     }
 
     // TODO Exécuter le test
