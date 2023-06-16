@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Exercice 07 - Stream Parallel - Effet de bord
+ * Exercice 06 - Stream Parallel - Effet de bord
  */
 public class Stream_06_Test {
 
@@ -36,12 +36,15 @@ public class Stream_06_Test {
     // TODO compléter la méthode pour que le calcul de la somme soit fait avec une instance d'Accumulator
     private long sumWithAccumulator(long n) {
         // TODO créer une instance de l'accumulateur (classe Accumulator)
-        Accumulator acc = null;
-        LongStream longStream = LongStream.rangeClosed(1, n - 1);
+        // Accumulator acc = null;
+    	Accumulator acc = new Accumulator();
+        
+    	LongStream longStream = LongStream.rangeClosed(1, n - 1);
 
         // TODO pour chaque élément de longStream, invoquer la méthode add de l'accumulateur (acc)
-
-        return acc.total;
+    	longStream.forEach(value -> acc.add(value));
+        
+    	return acc.total;
     }
 
     // TODO exécuter le test pour valider l'implémentation de sumWithAccumulator
@@ -58,7 +61,13 @@ public class Stream_06_Test {
 
     // TODO reprendre le code de sumWithAccumulator et rendre le traitement parallèle (.parallel())
     private long sumWithAccumulatorParallel(long n) {
-        return 0;
+    	Accumulator acc = new Accumulator();
+        
+    	LongStream longStream = LongStream.rangeClosed(1, n - 1);
+    	
+    	longStream.parallel().forEach(value -> acc.add(value));
+        
+    	return acc.total;
     }
 
     // TODO Exécuter le test

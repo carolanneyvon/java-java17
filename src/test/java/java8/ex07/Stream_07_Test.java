@@ -1,21 +1,21 @@
 package java8.ex07;
 
 import java8.data.Data;
-import java8.data.domain.Order;
+//import java8.data.domain.Order;
 import java8.data.domain.Pizza;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
+//import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
+//import java.util.function.UnaryOperator;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 /**
- * Exercice 08 - Stream Parallel - Collections
+ * Exercice 07 - Stream Parallel - Collections
  */
 public class Stream_07_Test {
 
@@ -36,12 +36,16 @@ public class Stream_07_Test {
 
     // TODO créer une fonction List<Pizza> -> List<Pizza>
     // TODO seules les pizzas ayant un prix >= 1000 sont conservées
-    Function<List<Pizza>, List<Pizza>> filterPizza = null;
+    // Function<List<Pizza>, List<Pizza>> filterPizza = null;
+    Function<List<Pizza>, List<Pizza>> filterPizza = t -> t.stream().filter(p -> p.getPrice()>=1000).toList();
+
 
     // TODO créer une fonction List<Pizza> -> List<Pizza>
     // TODO seules les pizzas ayant un prix >= 1000 sont conservées
     // TODO .parallel()
-    Function<List<Pizza>, List<Pizza>> parallelFilterPizza = null;
+    // Function<List<Pizza>, List<Pizza>> parallelFilterPizza = null;
+    Function<List<Pizza>, List<Pizza>> parallelFilterPizza = t -> t.stream().filter(p -> p.getPrice()>=1000).parallel().toList();;
+
 
     // TODO exécuter le test pour visualiser le temps d'exécution
     @Test
@@ -51,8 +55,8 @@ public class Stream_07_Test {
 
     // Que constatez-vous ?
     // De mon côté :
-    // INFO: arrayList=21 ms
-    // INFO: linkedList=21 ms
+    // INFO: arrayList=21 ms (mon 1 test -> 11 ms, mon 2 test -> 10 ms)
+    // INFO: linkedList=21 ms (mon 1 test -> 8 ms, mon 2 test -> 14 ms)
 
 
     // TODO exécuter le test pour visualiser le temps d'exécution
@@ -62,8 +66,8 @@ public class Stream_07_Test {
     }
 
     // Que constatez-vous ?
-    // INFO: arrayList=15 ms
-    // INFO: linkedList=83 ms
+    // INFO: arrayList=15 ms (mon 1 test -> 19 ms, mon 2 test -> 19 ms)
+    // INFO: linkedList=83 ms (mon 1 test -> 18 ms, mon 2 test -> 17 ms)
 
     public void arraylist_vs_linkedlist(Function<List<Pizza>, List<Pizza>> fn) throws Exception {
 
