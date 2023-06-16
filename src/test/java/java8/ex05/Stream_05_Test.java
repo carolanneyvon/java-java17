@@ -115,6 +115,9 @@ public class Stream_05_Test {
     private long rangeSum(long n) {
     	
     	Long result = LongStream.rangeClosed(1, n-1).sum();
+    	//Long result = LongStream.range(1, n).sum();
+    	//Long result = LongStream.rangeClosed(0, n-1).reduce(0, Long::sum);
+    	//Long result = LongStream.rangeClosed(0, 1).reduce(0, (a, b) -> a + b);
 
 		return result;
     }
