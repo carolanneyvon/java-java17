@@ -83,15 +83,10 @@ public class Stream_08_Test {
 
             // TODO construire une MAP (clé = année de naissance, valeur = somme des nombres de naissance de l'année)
             // Map<String, Integer> result = null;
-//    		Map<String, Integer> result = lines
-//                    .map(line -> line.split(","))
-//                    .map(data -> new Naissance(data[0], data[1], Integer.valueOf(data[2])))
-//                    .collect(groupingBy(Naissance::getAnnee, summingInt(Naissance::getNombre)));
-    		String key = lines.map(t -> t.split(";", 1)).findFirst().toString();
-			
-			System.out.println(key);
-			
-			Map<String, Integer> result = lines.collect(Collectors.groupingBy(t -> t.split(";", 1).toString(), Collectors.counting()));
+    		Map<String, Integer> result = lines
+                    .map(line -> line.split(","))
+                    .map(data -> new Naissance(data[0], data[1], Integer.valueOf(data[2])))
+                    .collect(groupingBy(Naissance::getAnnee, summingInt(Naissance::getNombre)));
 
 
             assertThat(result.get("2015"), is(8097));
